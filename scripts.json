@@ -1,0 +1,7 @@
+{
+  "logger": {
+    "fullscreen": true,
+    "quiet": true,
+    "debug": false
+  }
+}

@@ -1,3 +1,3 @@
 # automations
 
-Automations powered by GitHub actions
+automations powered by deno and github actions
