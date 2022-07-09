@@ -22,4 +22,4 @@ dev:
     --allow-env \
     --allow-read \
     --lock=lock.json \
-  automations/$(MAKECMDGOALS).ts
+    automations/$(MAKECMDGOALS).ts
