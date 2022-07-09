@@ -3,7 +3,12 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
-    "rootDir": "api",
+    "rootDir": "./src",
+    "esModuleInterop": true,
     "strict": true
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
   }
 }

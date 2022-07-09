@@ -1,3 +1,3 @@
 # automations
 
-Serverless automations powered by Vercel and GitHub actions
+Automations powered by GitHub actions
