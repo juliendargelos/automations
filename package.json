@@ -1,0 +1,15 @@
+{
+  "name": "automations",
+  "version": "0.0.0",
+  "author" :"Julien Dargelos <julien@plutot.cool>"
+  "private": true,
+  "scripts": {
+    "dev": "tsc --watch --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^18.0.3",
+    "@vercel/node": "^2.4.1",
+    "typescript": "^4.7.4"
+  }
+}
