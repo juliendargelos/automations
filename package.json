@@ -1,7 +1,7 @@
 {
   "name": "automations",
   "version": "0.0.0",
-  "author" :"Julien Dargelos <julien@plutot.cool>"
+  "author" :"Julien Dargelos <julien@plutot.cool>",
   "private": true,
   "scripts": {
     "dev": "tsc --watch --noEmit"
