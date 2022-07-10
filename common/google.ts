@@ -1,10 +1,11 @@
 import 'dotenv'
 import { fetch } from '~/common/client.ts'
 
-const OAUTH_TOKEN_ENDPOINT = 'https://accounts.google.com/o/oauth2/token'
+export const OAUTH_API_URL = 'https://accounts.google.com/o/oauth2'
+export const OAUTH_TOKEN_ENDPOINT = `${OAUTH_API_URL}/token`
 
 export async function authenticate(): Promise<string> {
-  const response = await fetch(OAUTH_TOKEN_ENDPOINT, {
+  const data = await fetch(OAUTH_TOKEN_ENDPOINT, {
     method: 'post',
     body: {
       client_id: Deno.env.get('GOOGLE_ID'),
@@ -13,8 +14,6 @@ export async function authenticate(): Promise<string> {
       grant_type: 'refresh_token'
     }
   })
-
-  const data = await response.json()
 
   if (data.access_token) {
     return data.access_token
