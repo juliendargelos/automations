@@ -98,4 +98,7 @@ const message = `${count} youtube video${count > 1
 
 console.log(message)
 
-await count && notify(message)
+await count && notify({
+  title: 'YouTube playlist filters',
+  text: message
+})
