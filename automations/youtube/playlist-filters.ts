@@ -45,51 +45,59 @@ const { items: videos } = await fetch(VIDEOS_ENDPOINT, {
 
 console.log('Filtering videos...')
 
-const responses = await Promise.all<Response[][]>(videos
-  .filter((video: any) => ((
-    // filter videos that are in the music category
-    video.snippet.categoryId === MUSIC_CATEGORY &&
+let index: number
+let video: any
+let playlistItem: any
+let count: number = 0
 
-    // filter videos with titles that does look like song titles
-    /\b(?: - |feat\.|edit|remix|mix|single|album|ep)\b/i.test(video.snippet.title)
-  ) || (
-    /\b(?:remix|full album|original mix|extended mix|full mix|acid mix)\b/i.test(video.snippet.title)
-  )))
-  .map((video: any, index: number) => Promise.all([
-    // remove video from watch later
-    fetch(PLAYLIST_ITEMS_ENDPOINT, {
-      headers,
-      unwrap: false,
-      method: 'delete',
-      params: {
-        id: playlistItems[index].id
-      }
-    }),
+for (let index = 0; index < videos.length; index++) {
+  video = videos[index]
+  playlistItem = playlistItems[index]
 
-    // add video to listen later
-    fetch(PLAYLIST_ITEMS_ENDPOINT, {
-      headers,
-      unwrap: false,
-      method: 'post',
-      params: {
-        part: 'snippet'
-      },
-      body: {
-        snippet: {
-          playlistId: LISTEN_LATER_PLAYLIST_ID,
-          resourceId: {
-            kind: 'youtube#video',
-            videoId: video.id
-          }
+  if ((
+    // ignore videos that are not in the music category
+    !video.snippet.categoryId === MUSIC_CATEGORY ||
+
+    // ignore videos with titles that does look like song titles
+    !/\b(?: - |feat\.|edit|remix|mix|single|album|ep)\b/i
+      .test(video.snippet.title)
+  ) && (
+    // include any video with title strongly suggesting it is a song
+    !/\b(?:remix|full album|original mix|extended mix|full mix|acid mix)\b/i
+      .test(video.snippet.title)
+  )) {
+    continue
+  }
+
+  await fetch(PLAYLIST_ITEMS_ENDPOINT, {
+    headers,
+    unwrap: false,
+    method: 'delete',
+    params: {
+      id: playlistItems[index].id
+    }
+  })
+
+  await fetch(PLAYLIST_ITEMS_ENDPOINT, {
+    headers,
+    unwrap: false,
+    method: 'post',
+    params: {
+      part: 'snippet'
+    },
+    body: {
+      snippet: {
+        playlistId: LISTEN_LATER_PLAYLIST_ID,
+        resourceId: {
+          kind: 'youtube#video',
+          videoId: video.id
         }
       }
-    }),
-  ]))
-)
+    }
+  })
 
-const count = responses.reduce((count, [remove, add]) => (
-  count + ((remove.ok && add.ok) as unknown as number)
-), 0)
+  count++
+}
 
 const message = `${count} youtube video${count > 1
   ? 's have'
@@ -99,6 +107,6 @@ const message = `${count} youtube video${count > 1
 console.log(message)
 
 await count && notify({
-  title: 'YouTube playlist filters',
+  title: 'Playlist filters',
   text: message
 })

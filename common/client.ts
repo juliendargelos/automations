@@ -39,7 +39,7 @@ export class ClientRequest extends Request {
 
     super(input, { body, ...init })
 
-    json && this.headers.set('content-type', 'text/json')
+    json && this.headers.set('content-type', 'application/json')
   }
 }
 
