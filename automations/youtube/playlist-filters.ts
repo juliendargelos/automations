@@ -45,7 +45,7 @@ const { items: videos } = await fetch(VIDEOS_ENDPOINT, {
 
 console.log('Filtering videos...')
 
-const { length: count } = await Promise.all(videos
+const responses = await Promise.all<Response[][]>(videos
   .filter((video: any) => ((
     // filter videos that are in the music category
     video.snippet.categoryId === MUSIC_CATEGORY &&
@@ -59,6 +59,7 @@ const { length: count } = await Promise.all(videos
     // remove video from watch later
     fetch(PLAYLIST_ITEMS_ENDPOINT, {
       headers,
+      unwrap: false,
       method: 'delete',
       params: {
         id: playlistItems[index].id
@@ -68,6 +69,7 @@ const { length: count } = await Promise.all(videos
     // add video to listen later
     fetch(PLAYLIST_ITEMS_ENDPOINT, {
       headers,
+      unwrap: false,
       method: 'post',
       params: {
         part: 'snippet'
@@ -84,6 +86,10 @@ const { length: count } = await Promise.all(videos
     }),
   ]))
 )
+
+const count = responses.reduce((count, [remove, add]) => (
+  count + ((remove.ok && add.ok) as unknown as number)
+), 0)
 
 const message = `${count} youtube video${count > 1
   ? 's have'
