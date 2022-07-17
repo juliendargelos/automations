@@ -6,7 +6,7 @@ runs:
     - uses: actions/cache@v3
       id: cache
       with:
-        key: ${{ runner.os }}-${{ hashFiles('{lock.json,Makefile,.github/actions/setup/action.yml}') }}
+        key: ${{ runner.os }}-${{ hashFiles('lock.json') }}-${{ hashFiles('Makefile') }}-${{ hashFiles('.github/actions/setup/action.yml') }}
         path: |
           bin
           .deno
