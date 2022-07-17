@@ -7,7 +7,7 @@ jobs:
   automation:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./setup
+      - uses: ./.github/actions/setup
       - run: make youtube/filter-watch-later
         env:
           GOOGLE_ID: ${{ secrets.GOOGLE_ID }}
