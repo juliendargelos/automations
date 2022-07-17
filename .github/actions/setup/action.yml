@@ -8,8 +8,8 @@ runs:
       with:
         key: ${{ runner.os }}-${{ hashFiles('lock.json') }}-${{ hashFiles('Makefile') }}
         path: |
-          ~/runner/work/automations/automations/bin
-          ~/runner/work/automations/automations/.deno
-    - if: ${{ steps.cache.outputs.cache-hit == 'false' }}
+          bin
+          .deno
+    - if: steps.cache.outputs.cache-hit == 'false'
       run: make install
       shell: bash
