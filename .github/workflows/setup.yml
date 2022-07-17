@@ -6,4 +6,4 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./setup
+      - uses: ./actions/setup
