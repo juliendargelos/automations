@@ -40,5 +40,6 @@ dev:
 		--allow-net \
 		--allow-env \
 		--allow-read \
+		--allow-run \
 		--lock=lock.json \
 		automations/$(MAKECMDGOALS).ts
