@@ -10,6 +10,7 @@ runs:
         path: |
           bin
           .deno
+
     - if: steps.cache.outputs.cache-hit == 'false'
       run: make install
       shell: bash
