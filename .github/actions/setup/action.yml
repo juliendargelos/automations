@@ -11,6 +11,6 @@ runs:
           bin
           .deno
 
-    - if: steps.cache.outputs.cache-hit == 'false'
+    - if: steps.cache.outputs.cache-hit == 'true'
       run: make install
       shell: bash
