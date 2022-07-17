@@ -36,14 +36,10 @@ console.log('Fetching youtube playlists...')
 const playlists = (await Promise.all(Object
   .entries(PLAYLIST_IDS)
   .map(async ([name, id]) => {
-    const output = await Deno.makeTempFile()
-    await Deno.writeTextFile(output, '[')
-
     const data = await ytdlp(
       '--dump-single-json',
       '--flat-playlist',
       '--simulate',
-      '--print-to-file', '{)'
       `https://www.youtube.com/playlist?list=${id}`
     )
 
