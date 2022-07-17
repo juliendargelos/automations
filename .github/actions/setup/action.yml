@@ -2,7 +2,6 @@ name: setup
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v3
     - uses: denoland/setup-deno@v1
     - uses: actions/cache@v3
       id: cache
