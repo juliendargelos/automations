@@ -1,0 +1,16 @@
+on:
+  - push
+  - workflow_dispatch
+
+jobs:
+  cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: denoland/setup-deno@v1
+      - uses: actions/cache@v3
+        with:
+          path: |
+            bin
+            .deno
+      - run: make install
