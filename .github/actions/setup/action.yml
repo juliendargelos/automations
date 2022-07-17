@@ -11,9 +11,6 @@ runs:
           bin
           .deno
 
-    - run: echo ${{ steps.cache.outputs.cache-hit }}
-      shell: bash
-
-    - if: steps.cache.outputs.cache-hit == 'true'
+    - if: steps.cache.outputs.cache-hit != 'true'
       run: make install
       shell: bash
