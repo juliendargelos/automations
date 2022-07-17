@@ -7,13 +7,7 @@ jobs:
   automation:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: denoland/setup-deno@v1
-      - uses: actions/cache@v3
-        with:
-          path: |
-            bin
-            .deno
+      - uses: ./setup
       - run: make youtube/filter-watch-later
         env:
           GOOGLE_ID: ${{ secrets.GOOGLE_ID }}
