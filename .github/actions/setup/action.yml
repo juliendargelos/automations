@@ -10,6 +10,7 @@ runs:
         path: |
           bin
           .deno
+          /opt/hostedtoolcache/deno/
 
     - if: steps.cache.outputs.cache-hit != 'true'
       run: make install
