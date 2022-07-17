@@ -88,7 +88,7 @@ duplicates = trash.length - unavailable
 
 console.log(`Found ${duplicates} duplicate videos`)
 
-consolle.log(trash)
+console.log(trash)
 
 // console.log(`Removing ${trash.length} videos...`)
 

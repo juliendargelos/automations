@@ -4,7 +4,7 @@ on:
     - cron: 0/20 * * * *
 
 jobs:
-  automation:
+  youtube-filter-watch-later:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
