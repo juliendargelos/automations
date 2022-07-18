@@ -9,8 +9,8 @@ export const MUSIC_CATEGORY = '10'
 export async function ytdlp(...args: string): Promise<string> {
   const process = Deno.run({
     cmd: [YTDLP, ...args],
-    stdout: 'piped',
-    stderr: 'piped'
+    // stdout: 'piped',
+    // stderr: 'piped'
   })
 
   const { code } = await process.status()

@@ -3,7 +3,7 @@ import { authenticate } from '~/common/google.ts'
 import { notify } from '~/common/chanify.ts'
 
 import {
-  ytdlp,
+  YTDLP,
   PLAYLIST_ITEMS_ENDPOINT,
   VIDEOS_ENDPOINT,
   MUSIC_CATEGORY,
@@ -15,12 +15,12 @@ import {
 const UNAVAILABLE_PATTERN = /^\[(?:Deleted|Private) video\]$/
 
 const PLAYLIST_IDS = {
-  // noise: 'PLKtcW8LnNHduc7f0vdGIhemtkkyTtZ70n',
-  // rekordbox: 'PLKtcW8LnNHdv7GhwhV5I5yS2qiOE5RZPX',
-  // listenLater: 'PLKtcW8LnNHdtMmcK0S5f1CUr9oo6ZRzcY'
-  noises: 'PLKtcW8LnNHdsGEiCg58Is_UK0f5d7iPrQ',
-  rekorbox: 'PLKtcW8LnNHdsGEiCg58Is_UK0f5d7iPrQ',
-  listenLater: 'PLKtcW8LnNHdu5OSdvD616bjyYI_rwnJTD'
+  noise: 'PLKtcW8LnNHduc7f0vdGIhemtkkyTtZ70n',
+  rekordbox: 'PLKtcW8LnNHdv7GhwhV5I5yS2qiOE5RZPX',
+  listenLater: 'PLKtcW8LnNHdtMmcK0S5f1CUr9oo6ZRzcY'
+  // noises: 'PLKtcW8LnNHdsGEiCg58Is_UK0f5d7iPrQ',
+  // rekorbox: 'PLKtcW8LnNHdsGEiCg58Is_UK0f5d7iPrQ',
+  // listenLater: 'PLKtcW8LnNHdu5OSdvD616bjyYI_rwnJTD'
 }
 
 const headers = {
@@ -36,17 +36,26 @@ console.log('Fetching youtube playlists...')
 const playlists = (await Promise.all(Object
   .entries(PLAYLIST_IDS)
   .map(async ([name, id]) => {
-    const data = await ytdlp(
-      '--dump-single-json',
-      '--flat-playlist',
+    const output = await Deno.makeTempFile()
+
+    const ytdlp = Deno.run({ cmd: [YTDLP,
       '--simulate',
+      '--print-to-file', '%(id)s %(title)s', output,
       `https://www.youtube.com/playlist?list=${id}`
-    )
+    ] })
+
+    await ytdlp.status()
 
     return {
       name,
       id,
-      videos: JSON.parse(data).entries
+      videos: (await Deno.readTextFile(output))
+        .split('\n')
+        .filter(Boolean)
+        .map(line => ({
+          id: line.split(' ')[0],
+          title: line.split(' ').slice(1).join(' ')
+        }))
     }
   })))
   .reduce((playlists, playlist) => {
