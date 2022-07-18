@@ -9,7 +9,7 @@ export const MUSIC_CATEGORY = '10'
 export async function authenticate(): Promise<string> {
   if (Deno.env.get('YOUTUBE_COOKIES')) {
     const cookies = await Deno.makeTempFile()
-    await fs.writeTextFile(cookies, Deno.env.get('YOUTUBE_COOKIES'))
+    await Deno.writeTextFile(cookies, Deno.env.get('YOUTUBE_COOKIES'))
     return ['--cookies', cookies]
   } else {
     return []
