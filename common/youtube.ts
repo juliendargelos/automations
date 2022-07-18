@@ -6,18 +6,12 @@ export const PLAYLIST_ITEMS_ENDPOINT = `${API_URL}/playlistItems`
 export const MAX_ITEM_COUNT = 50
 export const MUSIC_CATEGORY = '10'
 
-export async function ytdlp(...args: string): Promise<string> {
-  const process = Deno.run({
-    cmd: [YTDLP, ...args],
-    // stdout: 'piped',
-    // stderr: 'piped'
-  })
-
-  const { code } = await process.status()
-
-  if (code !== 0) {
-    throw new Error(await process.stderrOutput())
+export async function authenticate(): Promise<string> {
+  if (Deno.env.get('YOUTUBE_COOKIES')) {
+    const cookies = await Deno.makeTempFile()
+    await fs.writeTextFile(cookies, Deno.env.get('YOUTUBE_COOKIES'))
+    return ['--cookies', cookies]
+  } else {
+    return []
   }
-
-  return new TextDecoder().decode(await process.output())
 }

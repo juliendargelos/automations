@@ -1,5 +1,6 @@
 import { fetch } from '~/common/client.ts'
-import { authenticate } from '~/common/google.ts'
+import { authenticate as googleAuthenticate } from '~/common/google.ts'
+import { authenticate as youtubeAuthenticate } from '~/common/youtube.ts'
 import { notify } from '~/common/chanify.ts'
 
 import {
@@ -23,9 +24,13 @@ const PLAYLIST_IDS = {
   // listenLater: 'PLKtcW8LnNHdu5OSdvD616bjyYI_rwnJTD'
 }
 
-const headers = {
-  Authorization: `Bearer ${await authenticate()}`,
+const googleHeaders = {
+  Authorization: `Bearer ${await googleAuthenticate()}`,
 }
+
+const ytdlpOptions = [
+  ...(await youtubeAuthenticate())
+ ]
 
 const playlists = {}
 const trash = []
@@ -39,6 +44,7 @@ for (const name in PLAYLIST_IDS) {
   const output = await Deno.makeTempFile()
 
   const ytdlp = Deno.run({ cmd: [YTDLP,
+    ...ytdlpOptions,
     '--simulate',
     '--print-to-file', '%(id)s %(title)s', output,
     `https://www.youtube.com/playlist?list=${id}`
@@ -129,7 +135,7 @@ console.log(trash)
 
 // for (const { playlistId, videoId, reason } of trash) {
 //   const { items: playlistItems } = await fetch(PLAYLIST_ITEMS_ENDPOINT, {
-//     headers,
+//     headers: googleHeaders,
 //     params: {
 //       part: 'id',
 //       playlistId,
@@ -140,7 +146,7 @@ console.log(trash)
 //   for (const { id } of playlistItems) {
 //     await fetch(PLAYLIST_ITEMS_ENDPOINT, {
 //       method: 'delete',
-//       headers,
+//       headers: googleHeaders,
 //       params: {
 //         id: playlistItem.id
 //       }
