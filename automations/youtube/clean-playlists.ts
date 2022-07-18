@@ -27,41 +27,67 @@ const headers = {
   Authorization: `Bearer ${await authenticate()}`,
 }
 
+const playlists = {}
 const trash = []
 let duplicates = 0
 let unavailable = 0
 
 console.log('Fetching youtube playlists...')
 
-const playlists = (await Promise.all(Object
-  .entries(PLAYLIST_IDS)
-  .map(async ([name, id]) => {
-    const output = await Deno.makeTempFile()
+for (const name in PLAYLIST_IDS) {
+  const id = PLAYLIST_IDS[name]
+  const output = await Deno.makeTempFile()
 
-    const ytdlp = Deno.run({ cmd: [YTDLP,
-      '--simulate',
-      '--print-to-file', '%(id)s %(title)s', output,
-      `https://www.youtube.com/playlist?list=${id}`
-    ] })
+  const ytdlp = Deno.run({ cmd: [YTDLP,
+    '--simulate',
+    '--print-to-file', '%(id)s %(title)s', output,
+    `https://www.youtube.com/playlist?list=${id}`
+  ] })
 
-    await ytdlp.status()
+  await ytdlp.status()
 
-    return {
-      name,
-      id,
-      videos: (await Deno.readTextFile(output))
-        .split('\n')
-        .filter(Boolean)
-        .map(line => ({
-          id: line.split(' ')[0],
-          title: line.split(' ').slice(1).join(' ')
-        }))
-    }
-  })))
-  .reduce((playlists, playlist) => {
-    playlists[playlist.name] = playlist
-    return playlists
-  }, {})
+  playlists[name] = {
+    id,
+    name,
+    videos: (await Deno.readTextFile(output))
+      .split('\n')
+      .filter(Boolean)
+      .map(line => ({
+        id: line.split(' ')[0],
+        title: line.split(' ').slice(1).join(' ')
+      }))
+  }
+}
+
+// const playlists = (await Promise.all(Object
+//   .entries(PLAYLIST_IDS)
+//   .map(async ([name, id]) => {
+//     const output = await Deno.makeTempFile()
+
+//     const ytdlp = Deno.run({ cmd: [YTDLP,
+//       '--simulate',
+//       '--print-to-file', '%(id)s %(title)s', output,
+//       `https://www.youtube.com/playlist?list=${id}`
+//     ] })
+
+//     await ytdlp.status()
+
+//     return {
+//       name,
+//       id,
+//       videos: (await Deno.readTextFile(output))
+//         .split('\n')
+//         .filter(Boolean)
+//         .map(line => ({
+//           id: line.split(' ')[0],
+//           title: line.split(' ').slice(1).join(' ')
+//         }))
+//     }
+//   })))
+//   .reduce((playlists, playlist) => {
+//     playlists[playlist.name] = playlist
+//     return playlists
+//   }, {})
 
 console.log('Looking for unavailable videos...')
 
