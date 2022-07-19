@@ -16,7 +16,7 @@ import {
 const UNAVAILABLE_PATTERN = /^\[(?:Deleted|Private) video\]$/
 
 const PLAYLIST_IDS = {
-  noise: 'PLKtcW8LnNHduc7f0vdGIhemtkkyTtZ70n',
+  noises: 'PLKtcW8LnNHduc7f0vdGIhemtkkyTtZ70n',
   rekordbox: 'PLKtcW8LnNHdv7GhwhV5I5yS2qiOE5RZPX',
   listenLater: 'PLKtcW8LnNHdtMmcK0S5f1CUr9oo6ZRzcY'
   // noises: 'PLKtcW8LnNHdsGEiCg58Is_UK0f5d7iPrQ',
