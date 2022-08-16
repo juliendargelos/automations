@@ -56,14 +56,14 @@ for (let index = 0; index < videos.length; index++) {
 
   if ((
     // ignore videos that are not in the music category
-    !video.snippet.categoryId === MUSIC_CATEGORY ||
+    !video.snippet.categoryId === MUSIC_CATEGORY // ||
 
-    // ignore videos with titles that does look like song titles
-    !/\b(?: - |feat\.|edit|remix|mix|single|album|ep)\b/i
-      .test(video.snippet.title)
+    // ignore videos with titles that does not look like song titles
+    // !/\b(?: - |feat\.|edit|remix|mix|single|album|ep)\b/i
+    //   .test(video.snippet.title)
   ) && (
     // include any video with title strongly suggesting it is a song
-    !/\b(?:remix|full album|original mix|extended mix|full mix|acid mix)\b/i
+    !/\b(?:remix|full album|original mix|extended mix|full mix|acid mix|single|ep|feat\.)\b/i
       .test(video.snippet.title)
   )) {
     continue
