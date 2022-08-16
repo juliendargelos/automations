@@ -56,7 +56,7 @@ for (let index = 0; index < videos.length; index++) {
 
   if ((
     // ignore videos that are not in the music category
-    !video.snippet.categoryId === MUSIC_CATEGORY // ||
+    video.snippet.categoryId !== MUSIC_CATEGORY // ||
 
     // ignore videos with titles that does not look like song titles
     // !/\b(?: - |feat\.|edit|remix|mix|single|album|ep)\b/i
