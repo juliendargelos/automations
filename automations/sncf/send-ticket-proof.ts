@@ -105,6 +105,7 @@ if (ticketIndex >= 0) {
   await smtp.send({
     from: 'Julien Dargelos <julien@plutot.cool>',
     to: 'admin@plutot.cool',
+    cc: 'julien@plutot.cool',
     subject: title,
     content: title,
     attachments: [

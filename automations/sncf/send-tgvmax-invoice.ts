@@ -70,6 +70,7 @@ const title = `TGV max Julien Dargelos - ${name}`
 await smtp.send({
   from: 'Julien Dargelos <julien@plutot.cool>',
   to: 'admin@plutot.cool',
+  cc: 'julien@plutot.cool',
   subject: title,
   content: title,
   attachments: [
