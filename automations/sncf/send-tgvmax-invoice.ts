@@ -17,11 +17,12 @@ await email.type(Deno.env.get('TGVMAX_EMAIL'))
 await password.type(Deno.env.get('TGVMAX_PASSWORD'))
 
 await Promise.all([
-  page.waitForNavigation({ waitUntil: 'networkidle2' }),
-  password.press('Enter')
+  password.press('Enter'),
+  page.waitForNavigation({ waitUntil: 'networkidle2' })
 ])
 
 await page.goto('https://www.tgvmax.fr/trainline/fr-FR/factures')
+await page.waitForNavigation({ waitUntil: 'networkidle2' })
 
 const client = await page.target().createCDPSession()
 
@@ -30,12 +31,13 @@ await client.send('Page.setDownloadBehavior', {
   downloadPath: tmp
 })
 
+await page.waitForSelector('.link-download')
+
 const name = await page.evaluate(
   name => name.textContent,
-  page.$('.bills-date-info')
+  await page.$('.bills-date-info')
 )
 
-await page.waitForSelector('.link-download')
 await page.click('.link-download')
 
 await page.waitForNetworkIdle()
@@ -67,7 +69,7 @@ const title = `TGV max Julien Dargelos - ${name}`
 
 await smtp.send({
   from: 'julien@plutot.cool',
-  to: 'julien.dargelos@me.com',
+  to: 'admin@plutot.cool',
   subject: title,
   content: title,
   attachments: [
