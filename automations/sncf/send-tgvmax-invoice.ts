@@ -68,7 +68,7 @@ const smtp = new SMTPClient({
 const title = `TGV max Julien Dargelos - ${name}`
 
 await smtp.send({
-  from: 'julien@plutot.cool',
+  from: 'Julien Dargelos <julien@plutot.cool>',
   to: 'admin@plutot.cool',
   subject: title,
   content: title,

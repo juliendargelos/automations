@@ -1,0 +1,17 @@
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '* * 25 * *'
+
+jobs:
+  youtube-filter-watch-later:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+      - run: make sncf/send-ticket-proof
+        env:
+          GOOGLE_PLUTOTCOOL_EMAIL: ${{ secrets.GOOGLE_PLUTOTCOOL_EMAIL }}
+          GOOGLE_PLUTOTCOOL_PASSWORD: ${{ secrets.GOOGLE_PLUTOTCOOL_PASSWORD }}
+          TRAINLINE_EMAIL: ${{ secrets.TRAINLINE_EMAIL }}
+          TRAINLINE_PASSWORD: ${{ secrets.TRAINLINE_PASSWORD }}
