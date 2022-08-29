@@ -1,6 +1,8 @@
 {
   "imports": {
     "~/": "./",
-    "dotenv": "https://deno.land/std@0.147.0/dotenv/load.ts"
+    "dotenv": "https://deno.land/std@0.147.0/dotenv/load.ts",
+    "puppeteer": "https://deno.land/x/puppeteer@16.2.0/mod.ts",
+    "denomailer": "https://deno.land/x/denomailer@1.2.0/mod.ts"
   }
 }

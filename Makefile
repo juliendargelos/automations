@@ -1,19 +1,13 @@
 export DENO_DIR := .deno
 export BIN_DIR := bin
 export DENON := https://deno.land/x/denon@2.5.0/denon.ts
+export PUPPETEER := https://deno.land/x/puppeteer@16.2.0/install.ts
 export YTDLP := https://github.com/yt-dlp/yt-dlp/releases/download/2022.06.29/yt-dlp
 
 install:
-	deno cache \
-		--lock-write \
-		--lock=lock.json \
-		**/*.ts
+	deno cache **/*.ts "$$DENON"
 
-	deno cache \
-		"$$DENON" \
-		--lock-write \
-		--lock=lock.json \
-		**/*.ts
+	PUPPETEER_PRODUCT=chrome deno run -A --unstable "$$PUPPETEER"
 
 	mkdir -p "$$BIN_DIR"
 
@@ -30,7 +24,6 @@ dev:
 		--allow-run \
 		"$$DENON" \
 		deno check \
-		--lock=lock.json \
 		./common/*.ts \
 		./automations/**/*.ts
 
@@ -42,5 +35,4 @@ dev:
 		--allow-read \
 		--allow-run \
 		--allow-write \
-		--lock=lock.json \
 		automations/$(MAKECMDGOALS).ts

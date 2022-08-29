@@ -1,0 +1,17 @@
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '* * 5 * *'
+
+jobs:
+  youtube-filter-watch-later:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+      - run: make sncf/send-tgvmax-invoice
+        env:
+          GOOGLE_PLUTOTCOOL_EMAIL: ${{ secrets.GOOGLE_PLUTOTCOOL_EMAIL }}
+          GOOGLE_PLUTOTCOOL_PASSWORD: ${{ secrets.GOOGLE_PLUTOTCOOL_PASSWORD }}
+          TGVMAX_EMAIL: ${{ secrets.TGVMAX_EMAIL }}
+          TGVMAX_PASSWORD: ${{ secrets.TGVMAX_PASSWORD }}
