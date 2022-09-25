@@ -4,7 +4,7 @@ on:
     - cron: '0 12 25 * *'
 
 jobs:
-  youtube-filter-watch-later:
+  sncf-send-ticket-proof:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
