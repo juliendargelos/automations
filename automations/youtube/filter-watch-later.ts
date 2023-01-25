@@ -14,7 +14,7 @@ import {
 
 const ITEMS_COUNT = 10
 const WATCH_LATER_PLAYLIST_ID = 'PLKtcW8LnNHdu12KfpHUJINe0FnLLFVoVD'
-const LISTEN_LATER_PLAYLIST_ID = 'PLKtcW8LnNHdtrzju60J4-BLu1tS2IqvRT'
+const LISTEN_LATER_PLAYLIST_ID = 'PLKtcW8LnNHdt4X-_kQhVqtWqZVoiyTfrJ'
 
 const headers = {
   Authorization: `Bearer ${await authenticate()}`,
