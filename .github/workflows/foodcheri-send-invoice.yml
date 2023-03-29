@@ -1,0 +1,18 @@
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 10 * * *
+
+jobs:
+  youtube-filter-watch-later:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+      - run: make foodcheri/send-invoice
+        env:
+          GOOGLE_PLUTOTCOOL_EMAIL: ${{ secrets.GOOGLE_PLUTOTCOOL_EMAIL }}
+          GOOGLE_PLUTOTCOOL_PASSWORD: ${{ secrets.GOOGLE_PLUTOTCOOL_PASSWORD }}
+          FOODCHERI_EMAIL: ${{ secrets.FOODCHERI_EMAIL }}
+          FOODCHERI_PASSWORD: ${{ secrets.FOODCHERI_PASSWORD }}
+          QONTO_INVOICE_EMAIL: ${{ secrets.QONTO_INVOICE_EMAIL }}
